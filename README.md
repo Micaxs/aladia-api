@@ -7,8 +7,8 @@ Monorepo with a public HTTP gateway and an authentication microservice communica
 - `apps/gateway` – HTTP REST API (Swagger, validation)
 - `apps/authentication` – authentication & user management (MongoDB, JWT)
 - `core` – shared infrastructure (e.g. networking service)
-- `common` – shared DTOs/utilities (placeholder)
-- `config` – configuration helpers (placeholder)
+- `common` – shared DTOs/utilities
+- `config` – configuration helpers
 
 ## Running locally
 
