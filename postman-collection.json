@@ -1,0 +1,125 @@
+{
+  "info": {
+    "name": "Aladia API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Postman collection for Aladia gateway/authentication API"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"Password123!\",\n  \"email\": \"testuser@example.com\",\n  \"active\": true,\n  \"country\": \"US\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const jsonData = pm.response.json();",
+                  "if (jsonData.accessToken) {",
+                  "  pm.collectionVariables.set('jwt', jsonData.accessToken);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "users", "{{userId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User By Username",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwt}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/user?username={{username}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "user"],
+              "query": [
+                { "key": "username", "value": "{{username}}" }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "jwt", "value": "" },
+    { "key": "userId", "value": "" },
+    { "key": "username", "value": "testuser" }
+  ]
+}

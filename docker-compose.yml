@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: aladia-mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+
+  authentication:
+    build:
+      context: .
+      dockerfile: Dockerfile.auth
+    container_name: aladia-authentication
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/aladia_auth
+      - AUTH_HOST=0.0.0.0
+      - AUTH_PORT=4001
+      - JWT_SECRET=duYIofOuR3B3Y1LCZmmje4bc710bbzAi
+    depends_on:
+      - mongo
+
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
+    container_name: aladia-gateway
+    environment:
+      - GATEWAY_PORT=3000
+      - AUTH_HOST=authentication
+      - AUTH_PORT=4001
+      - JWT_SECRET=duYIofOuR3B3Y1LCZmmje4bc710bbzAi
+      - CACHE_TTL_MS=60000
+    ports:
+      - '3000:3000'
+    depends_on:
+      - authentication
+
+volumes:
+  mongo_data:

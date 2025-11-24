@@ -1,0 +1,12 @@
+FROM node:20
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install --omit=dev
+
+COPY . .
+
+RUN npx nest build authentication
+
+CMD ["node", "dist/apps/authentication/src/main.js"]

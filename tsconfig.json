@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "paths": {
+      "@common/*": ["common/*"],
+      "@core/*": ["core/*"],
+      "@config/*": ["config/*"]
+    }
+  },
+  "include": ["apps/**/*.ts", "core/**/*.ts", "common/**/*.ts", "config/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

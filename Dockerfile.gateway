@@ -1,0 +1,12 @@
+FROM node:20
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install --omit=dev
+
+COPY . .
+
+RUN npx nest build gateway
+
+CMD ["node", "dist/apps/gateway/apps/gateway/src/main.js"]
