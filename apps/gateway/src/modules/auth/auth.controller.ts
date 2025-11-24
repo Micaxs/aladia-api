@@ -15,6 +15,8 @@ export class AuthHttpController {
     private readonly networkingService: NetworkingService,
   ) {}
 
+  // Caching Manager 
+  // (For bigger application, would probably move to its own service or use something like redis to store responses)
   private cacheManager?: Cache;
   private readonly cacheTtlMs: number = configuration().cacheTtlMs;
 
@@ -25,6 +27,7 @@ export class AuthHttpController {
     return this.cacheManager;
   }
 
+  // POST /auth/login
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() dto: LoginDto): Promise<{ accessToken: string }> {
@@ -35,7 +38,7 @@ export class AuthHttpController {
     }
   }
 
-  
+  // POST /auth/register
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   async register(@Body() dto: RegisterUserDto): Promise<UserRto> {
@@ -47,6 +50,7 @@ export class AuthHttpController {
   }
 
 
+  // GET /auth/users (requires authentication token)
   @Get('users')
   @ApiBearerAuth()
   @ApiOkResponse({ type: UserRto, isArray: true })
@@ -63,7 +67,7 @@ export class AuthHttpController {
     return users;
   }
 
-
+  // GET /auth/users/:id (requires authentication token)
   @Get('users/:id')
   @ApiBearerAuth()
   @ApiOkResponse({ type: UserRto })
@@ -82,7 +86,7 @@ export class AuthHttpController {
     return user;
   }
 
-
+  // GET /auth/user?username= (requires authentication token)
   @Get('user')
   @ApiBearerAuth()
   @ApiOkResponse({ type: UserRto })

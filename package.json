@@ -13,6 +13,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"apps/**/*.ts\" \"{core,common,config}/**/*.ts\"",
     "lint": "eslint \"{src,apps,core,common,config}/**/*.ts\" --fix",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:e2e": "jest -c jest-e2e.config.cjs"
   },
   "dependencies": {

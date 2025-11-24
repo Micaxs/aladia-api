@@ -4,7 +4,7 @@ import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository) { }
 
   async register(
     username: string,
@@ -18,6 +18,7 @@ export class UserService {
       throw new ConflictException('Username already exists');
     }
 
+    // Using bcrypt but for anything real preferably use Argon2 (for gpu cracking resistance)
     const passwordHash = await bcrypt.hash(password, 10);
     const user = await this.userRepository.create(username, passwordHash, email, active, country);
     return {
@@ -68,6 +69,7 @@ export class UserService {
     };
   }
 
+  // Not used in gateway but useful for admin operations
   async update(
     id: string,
     updates: Partial<Pick<ReturnType<typeof Object>, 'email' | 'active' | 'country'>> & {

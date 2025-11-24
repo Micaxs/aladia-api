@@ -12,6 +12,6 @@ export default (): AppConfig => ({
   authHost: process.env.AUTH_HOST ?? 'authentication',
   authPort: parseInt(process.env.AUTH_PORT ?? '4001', 10),
   mongoUri: process.env.MONGO_URI ?? 'mongodb://mongo:27017/aladia_auth',
-  jwtSecret: process.env.JWT_SECRET ?? 'changeme',
+  jwtSecret: process.env.JWT_SECRET ?? '',
   cacheTtlMs: parseInt(process.env.CACHE_TTL_MS ?? '60000', 10),
 });
