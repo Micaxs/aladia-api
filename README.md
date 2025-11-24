@@ -1,8 +1,7 @@
 # Aladia NestJS Monorepo
 
 Monorepo with a public HTTP gateway and an authentication microservice communicating via NestJS TCP microservices.
-
-The configuration is handled with environment variables (.env file), make sure to create one when running locally.
+The configuration is handled with environment variables (.env file), make sure to create one when running locally according to the configuration specs.
 
 ## Project Structure
 
