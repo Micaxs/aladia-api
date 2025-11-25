@@ -5,6 +5,7 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import configuration from '@config/configuration';
 import { validationSchema } from '@config/validation.schema';
+import { LoggerModule } from '@core/logger/logger.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { validationSchema } from '@config/validation.schema';
         uri: configuration().mongoUri,
       }),
     }),
+    LoggerModule,
     UserModule,
     AuthModule,
   ],

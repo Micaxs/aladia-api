@@ -1,10 +1,14 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UserRepository } from './user.repository';
+import { LoggerService } from '@core/logger/logger.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) { }
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly logger: LoggerService,
+  ) { }
 
   async register(
     username: string,
@@ -15,6 +19,7 @@ export class UserService {
   ) {
     const existing = await this.userRepository.findByUsername(username);
     if (existing) {
+      this.logger.warn(`Attempt to register with existing username: ${username}`);
       throw new ConflictException('Username already exists');
     }
 
@@ -44,6 +49,7 @@ export class UserService {
   async findById(id: string) {
     const user = await this.userRepository.findById(id);
     if (!user) {
+      this.logger.warn(`User not found with id: ${id}`);
       return null;
     }
     return {
@@ -58,6 +64,7 @@ export class UserService {
   async findByUsername(username: string) {
     const user = await this.userRepository.findByUsername(username);
     if (!user) {
+      this.logger.warn(`User not found with username: ${username}`);
       return null;
     }
     return {
@@ -80,6 +87,7 @@ export class UserService {
   ) {
     const user = await this.userRepository.findById(id);
     if (!user) {
+      this.logger.warn(`User not found with id: ${id}`);
       throw new NotFoundException('User not found');
     }
 
@@ -106,6 +114,7 @@ export class UserService {
   async delete(id: string) {
     const user = await this.userRepository.findById(id);
     if (!user) {
+      this.logger.warn(`User not found with id: ${id}`);
       throw new NotFoundException('User not found');
     }
 

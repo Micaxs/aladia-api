@@ -4,9 +4,15 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
+import { LoggerService } from '@core/logger/logger.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(GatewayAppModule);
+  const app = await NestFactory.create<NestExpressApplication>(GatewayAppModule, {
+    bufferLogs: true,
+  });
+
+  const logger = app.get(LoggerService);
+  app.useLogger(logger);
 
   app.useGlobalPipes(
     new ValidationPipe({
