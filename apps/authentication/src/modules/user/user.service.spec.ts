@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as bcrypt from 'bcrypt';
 import { UserService } from './user.service';
 import { UserRepository } from './user.repository';
+import { LoggerService } from '@core/logger/logger.service';
 
 jest.mock('bcrypt');
 
@@ -20,6 +21,16 @@ describe('UserService', () => {
             findByUsername: jest.fn(),
             create: jest.fn(),
             findAll: jest.fn(),
+          },
+        },
+        {
+          provide: LoggerService,
+          useValue: {
+            log: jest.fn(),
+            error: jest.fn(),
+            warn: jest.fn(),
+            debug: jest.fn(),
+            verbose: jest.fn(),
           },
         },
       ],
